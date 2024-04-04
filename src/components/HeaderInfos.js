@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import PercentChange from "./PercentChange";
 const HeaderInfos = () => {
   const [headerData, setHeaderData] = useState([]);
   useEffect(() => {
@@ -23,10 +23,27 @@ const HeaderInfos = () => {
           {headerData.active_cryptocurrencies &&
             headerData.active_cryptocurrencies}
         </li>
-        <li>Marchés : {headerData.markets && headerData.markets}</li>
+        <li>
+          Marchés : {headerData.markets && headerData.markets.toLocaleString()}
+        </li>
       </ul>
       <ul className="infos-mkt">
-        <li className="global-mkt">Global Market Cap : <strong></strong></li>
+        <li className="global-mkt">
+          Global Market Cap :
+          <PercentChange
+            percent={headerData.market_cap_change_percentage_24h_usd}
+          />
+        </li>
+        <li>
+          BTC Dominance :{" "}
+          {headerData.market_cap_change_percentage &&
+            headerData.market_cap_change_percentage.btc.toFixed(1) + "%"}
+        </li>
+        <li>
+          ETH Dominance :{" "}
+          {headerData.market_cap_change_percentage &&
+            headerData.market_cap_change_percentage.eth.toFixed(1) + "%"}
+        </li>
       </ul>
     </div>
   );
